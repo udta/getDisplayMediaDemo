@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ORTC 测试</title>
+    <link rel="stylesheet" href="css/_mainIndex.css"/>
+    <link rel="stylesheet" href="css/index.css"/>
+</head>
+<body>
+    <div>
+        <button id="getMedia">Get media</button>
+        <button id="connect" disabled>Connect</button>
+        <button id="hangup" disabled>Hang Up</button>
+    </div>
+
+    <section id="video">
+        <div id="localVideo">
+            <video playsinline autoplay muted></video>
+            <div></div>
+        </div>
+        <div id="remoteVideo">
+            <video playsinline autoplay muted></video>
+            <div></div>
+            <div id="bitrate"></div>
+            <div id="peer"></div>
+        </div>
+    </section>
+
+    <script src="js/adapter-latest.js"></script>
+    <script src="js/ga.js"></script>
+    <script src="js/index_test.js"></script>
+</body>
+</html>
