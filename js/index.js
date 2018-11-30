@@ -35,16 +35,8 @@ var timestampPrev;
 
 
 var defaultCon = {
-    audio: true,
-    video: {
-        frameRate: { exact: 30 },
-        width: {
-            exact: 320,
-        },
-        height: {
-            exact: 240,
-        },
-    }
+    audio: false,
+    video: true,
 };
 getUserMediaConstraintsDiv.value = JSON.stringify(defaultCon, null, '    ' );
 
@@ -66,17 +58,33 @@ function getMedia() {
             videoTracks[i].stop();
         }
     }
+
     console.warn(getUserMediaConstraints());
-    navigator.getDisplayMedia(getUserMediaConstraints())
-        .then(gotStream)
-        .catch(function(e) {
-            console.warn("getUserMedia failed!");
-            var message = 'getUserMedia error: ' + e.name + '\n' +
-                'PermissionDeniedError may mean invalid constraints.';
-            alert(message);
-            console.log(message);
-            getMediaButton.disabled = false;
-        });
+    if(detectBrowser() == "edge"){
+        navigator.getDisplayMedia(getUserMediaConstraints())
+            .then(gotStream)
+            .catch(function(e) {
+                console.warn("getUserMedia failed!");
+                var message = 'getUserMedia error: ' + e.name + '\n' +
+                    'PermissionDeniedError may mean invalid constraints.';
+                alert(message);
+                console.log(message);
+                getMediaButton.disabled = false;
+            });
+    }else if(detectBrowser() == "chrome"){
+        navigator.mediaDevices.getDisplayMedia(getUserMediaConstraints())
+            .then(gotStream)
+            .catch(function(e) {
+                console.warn("getUserMedia failed!");
+                var message = 'getUserMedia error: ' + e.name + '\n' +
+                    'PermissionDeniedError may mean invalid constraints.';
+                alert(message);
+                console.log(message);
+                getMediaButton.disabled = false;
+            });
+    }else {
+        console.warn(detectBrowser())
+    }
 }
 
 
@@ -326,4 +334,29 @@ function dumpStats(results) {
         });
     });
     return statsString;
+}
+
+
+
+function detectBrowser() {
+    var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
+    var isOpera = userAgent.indexOf("Opera") > -1;
+    if (isOpera) {
+        return "opera"
+    }; //判断是否Opera浏览器
+    if (userAgent.indexOf("Firefox") > -1) {
+        return "firefox";
+    } //判断是否Firefox浏览器
+    if (userAgent.indexOf("Chrome") > -1){
+        return "chrome";
+    }
+    if (userAgent.indexOf("Safari") > -1) {
+        return "Safari";
+    } //判断是否Safari浏览器
+    if (userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1 && !isOpera) {
+        return "IE";
+    }; //判断是否IE浏览器
+    if(userAgent.indexOf("Edge") > -1){
+        return "edge";
+    }; //判断是否IE的Edge浏览器
 }

@@ -51,12 +51,17 @@
 
     <section id="constraints">
         <div id="getUserMedia">
+            <h4>改变Constraints的值，看是否可以做到帧率、分辨率的控制！
+                <label style="color:red; font-size: 15px; ">期望帧率是不超过15帧</label>
+            </h4>
+
             <textarea name="getUserMediaConstraints" id="getUserMediaConstraints" type="text"></textarea>
         </div>
 
     </section>
 
     <section id="video">
+        <h4>可以在 chrome://webrtc-internals/ 界面查看共享的帧率、分辨率</h4>
         <div id="localVideo">
             <video playsinline autoplay muted></video>
             <div></div>
