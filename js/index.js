@@ -43,7 +43,15 @@ getUserMediaConstraintsDiv.value = JSON.stringify(defaultCon, null, '    ' );
 main();
 
 function main() {
-    displayGetUserMediaConstraints();
+
+    if ( navigator.mediaDevices.getDisplayMedia === undefined 
+         && navigator.getDisplayMedia === undefined ) {
+    
+        alert("This browser is not support the getDisplay function!!!")
+    } else { 
+
+        displayGetUserMediaConstraints();
+    }
 }
 
 function getMedia() {
@@ -60,7 +68,8 @@ function getMedia() {
     }
 
     console.warn(getUserMediaConstraints());
-    if(detectBrowser() == "edge"){
+    var browser = detectBrowser();
+    if(navigator.getDisplayMedia){
         navigator.getDisplayMedia(getUserMediaConstraints())
             .then(gotStream)
             .catch(function(e) {
@@ -71,7 +80,7 @@ function getMedia() {
                 console.log(message);
                 getMediaButton.disabled = false;
             });
-    }else if(detectBrowser() == "chrome"){
+    }else if(navigator.mediaDevices.getDisplayMedia){
         navigator.mediaDevices.getDisplayMedia(getUserMediaConstraints())
             .then(gotStream)
             .catch(function(e) {
